@@ -28,7 +28,6 @@ static void on_wifi_connection_event(struct net_mgmt_event_callback *cb,
 
         }else{
             printk("Connected!\r\n");
-            
         }
         k_sem_give(&sem_wifi);
     }else if(mgmt_event == NET_EVENT_WIFI_DISCONNECT_RESULT){
