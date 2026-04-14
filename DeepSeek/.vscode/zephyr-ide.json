@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "DeepSeek": {
+      "rel_path": "",
+      "name": "DeepSeek",
+      "buildConfigs": {},
+      "twisterConfigs": {},
+      "confFiles": {
+        "config": [],
+        "extraConfig": [],
+        "overlay": [],
+        "extraOverlay": []
+      }
+    }
+  }
+}

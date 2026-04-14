@@ -1,0 +1,921 @@
+/dts-v1/;
+
+/* node '/' defined in external/zephyr/dts/common/skeleton.dtsi:9 */
+/ {
+	#address-cells = < 0x1 >;                   /* in external/zephyr/dts/common/skeleton.dtsi:10 */
+	#size-cells = < 0x1 >;                      /* in external/zephyr/dts/common/skeleton.dtsi:11 */
+	model = "Espressif ESP32S3-DevkitM PROCPU"; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:15 */
+	compatible = "espressif,esp32s3";           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:16 */
+
+	/* node '/chosen' defined in external/zephyr/dts/common/skeleton.dtsi:12 */
+	chosen {
+		zephyr,canbus = &twai;                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:23 */
+		zephyr,entropy = &trng0;                  /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:24 */
+		zephyr,flash-controller = &flash;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:25 */
+		zephyr,sram = &sram1;                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:24 */
+		zephyr,console = &uart0;                  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:25 */
+		zephyr,shell-uart = &uart0;               /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:26 */
+		zephyr,flash = &flash0;                   /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:27 */
+		zephyr,code-partition = &slot0_partition; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:28 */
+		zephyr,bt-hci = &esp32_bt_hci;            /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:29 */
+	};
+
+	/* node '/aliases' defined in external/zephyr/dts/common/skeleton.dtsi:13 */
+	aliases {
+		die-temp0 = &coretemp; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:19 */
+		i2c-0 = &i2c0;         /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:19 */
+		watchdog0 = &wdt0;     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:20 */
+		uart-0 = &uart0;       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:33 */
+		sw0 = &button0;        /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:34 */
+	};
+
+	/* node '/soc' defined in external/zephyr/dts/xtensa/xtensa.dtsi:10 */
+	soc {
+		#address-cells = < 0x1 >;  /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:92 */
+		#size-cells = < 0x1 >;     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:93 */
+		compatible = "simple-bus"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:94 */
+		ranges;                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:95 */
+
+		/* node '/soc/memory@42000000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:97 */
+		icache0: memory@42000000 {
+			compatible = "zephyr,memory-region"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:98 */
+			reg = < 0x42000000 0x2000000 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:99 */
+			zephyr,memory-region = "ICACHE0";    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:100 */
+		};
+
+		/* node '/soc/memory@3c000000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:103 */
+		dcache0: memory@3c000000 {
+			compatible = "zephyr,memory-region"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:104 */
+			reg = < 0x3c000000 0x2000000 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:105 */
+			zephyr,memory-region = "DCACHE0";    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:106 */
+
+			/* node '/soc/memory@3c000000/psram0' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:108 */
+			psram0: psram0 {
+				compatible = "espressif,esp32-psram"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:109 */
+				size = < 0x800000 >;                  /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_mini_n8.dtsi:15 */
+			};
+		};
+
+		/* node '/soc/memory@40370000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:114 */
+		sram0: memory@40370000 {
+			compatible = "zephyr,memory-region",
+			             "mmio-sram";            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:115 */
+			reg = < 0x40370000 0x8000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:116 */
+			zephyr,memory-region = "SRAM0";      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:117 */
+		};
+
+		/* node '/soc/memory@3fc88000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:120 */
+		sram1: memory@3fc88000 {
+			compatible = "zephyr,memory-region",
+			             "mmio-sram";            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:121 */
+			reg = < 0x3fc88000 0x68000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:122 */
+			zephyr,memory-region = "SRAM1";      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:123 */
+		};
+
+		/* node '/soc/memory@3fcf0000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:126 */
+		sram2: memory@3fcf0000 {
+			compatible = "zephyr,memory-region",
+			             "mmio-sram";            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:127 */
+			reg = < 0x3fcf0000 0x10000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:128 */
+			zephyr,memory-region = "SRAM2";      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:129 */
+		};
+
+		/* node '/soc/memory@3fce5000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:132 */
+		ipmmem0: memory@3fce5000 {
+			compatible = "mmio-sram";   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:133 */
+			reg = < 0x3fce5000 0x400 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:134 */
+			phandle = < 0x1 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:146 */
+		};
+
+		/* node '/soc/memory@3fce5400' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:137 */
+		shm0: memory@3fce5400 {
+			compatible = "mmio-sram";    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:138 */
+			reg = < 0x3fce5400 0x4000 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:139 */
+		};
+
+		/* node '/soc/ipm@3fce9400' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:142 */
+		ipm0: ipm@3fce9400 {
+			compatible = "espressif,esp32-ipm"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:143 */
+			reg = < 0x3fce9400 0x8 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:144 */
+			status = "disabled";                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:145 */
+			shared-memory = < &ipmmem0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:146 */
+			shared-memory-size = < 0x400 >;     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:147 */
+			interrupts = < 0x4f 0x0 0x0 >,
+			             < 0x50 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:148 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:151 */
+		};
+
+		/* node '/soc/mbox@3fce9408' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:154 */
+		mbox0: mbox@3fce9408 {
+			compatible = "espressif,mbox-esp32"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:155 */
+			reg = < 0x3fce9408 0x8 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:156 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:157 */
+			shared-memory = < &ipmmem0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:158 */
+			shared-memory-size = < 0x400 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:159 */
+			interrupts = < 0x4f 0x0 0x0 >,
+			             < 0x50 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:160 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:163 */
+			#mbox-cells = < 0x1 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:164 */
+		};
+
+		/* node '/soc/interrupt-controller@600c2000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:167 */
+		intc: interrupt-controller@600c2000 {
+			#interrupt-cells = < 0x3 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:168 */
+			#address-cells = < 0x0 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:169 */
+			compatible = "espressif,esp32-intc"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:170 */
+			interrupt-controller;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:171 */
+			reg = < 0x600c2000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:172 */
+			status = "okay";                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:173 */
+			phandle = < 0x2 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:151 */
+		};
+
+		/* node '/soc/xt_wdt@60021004' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:176 */
+		xt_wdt: xt_wdt@60021004 {
+			compatible = "espressif,esp32-xt-wdt"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:177 */
+			reg = < 0x60021004 0x4 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:178 */
+			clocks = < &clock 0x28 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:179 */
+			interrupts = < 0x27 0x0 0x0 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:180 */
+			interrupt-parent = < &intc >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:181 */
+			status = "disabled";                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:182 */
+		};
+
+		/* node '/soc/rtc_timer@60008004' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:185 */
+		rtc_timer: rtc_timer@60008004 {
+			reg = < 0x60008004 0xc >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:186 */
+			compatible = "espressif,esp32-rtc_timer"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:187 */
+			clocks = < &clock 0x28 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:188 */
+			interrupts = < 0x27 0x0 0x0 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:189 */
+			interrupt-parent = < &intc >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:190 */
+			status = "disabled";                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:191 */
+		};
+
+		/* node '/soc/flash-controller@60002000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:194 */
+		flash: flash-controller@60002000 {
+			compatible = "espressif,esp32-flash-controller"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:195 */
+			reg = < 0x60002000 0x1000 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:196 */
+			#address-cells = < 0x1 >;                        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:197 */
+			#size-cells = < 0x1 >;                           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:198 */
+
+			/* node '/soc/flash-controller@60002000/flash@0' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:200 */
+			flash0: flash@0 {
+				compatible = "soc-nv-flash";   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:201 */
+				erase-block-size = < 0x1000 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:202 */
+				write-block-size = < 0x4 >;    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:203 */
+				reg = < 0x0 0x800000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_mini_n8.dtsi:11 */
+
+				/* node '/soc/flash-controller@60002000/flash@0/partitions' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:8 */
+				partitions {
+					compatible = "fixed-partitions"; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:9 */
+					#address-cells = < 0x1 >;        /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:10 */
+					#size-cells = < 0x1 >;           /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:11 */
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@0' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:13 */
+					boot_partition: partition@0 {
+						label = "mcuboot";     /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:14 */
+						reg = < 0x0 0x10000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:15 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@10000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:18 */
+					sys_partition: partition@10000 {
+						label = "sys";             /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:19 */
+						reg = < 0x10000 0x10000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:20 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@20000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:23 */
+					slot0_partition: partition@20000 {
+						label = "image-0";          /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:24 */
+						reg = < 0x20000 0x150000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:25 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@170000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:28 */
+					slot1_partition: partition@170000 {
+						label = "image-1";           /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:29 */
+						reg = < 0x170000 0x150000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:30 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@2c0000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:33 */
+					slot0_appcpu_partition: partition@2c0000 {
+						label = "image-0-appcpu";   /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:34 */
+						reg = < 0x2c0000 0x70000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:35 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@330000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:38 */
+					slot1_appcpu_partition: partition@330000 {
+						label = "image-1-appcpu";   /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:39 */
+						reg = < 0x330000 0x70000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:40 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@3a0000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:43 */
+					slot0_lpcore_partition: partition@3a0000 {
+						label = "image-0-lpcore";  /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:44 */
+						reg = < 0x3a0000 0x8000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:45 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@3a8000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:48 */
+					slot1_lpcore_partition: partition@3a8000 {
+						label = "image-1-lpcore";  /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:49 */
+						reg = < 0x3a8000 0x8000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:50 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@3b0000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:53 */
+					storage_partition: partition@3b0000 {
+						label = "storage";          /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:54 */
+						reg = < 0x3b0000 0x30000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:55 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@3e0000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:58 */
+					scratch_partition: partition@3e0000 {
+						label = "image-scratch";    /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:59 */
+						reg = < 0x3e0000 0x1f000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:60 */
+					};
+
+					/* node '/soc/flash-controller@60002000/flash@0/partitions/partition@3ff000' defined in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:63 */
+					coredump_partition: partition@3ff000 {
+						label = "coredump";        /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:64 */
+						reg = < 0x3ff000 0x1000 >; /* in external/zephyr/dts/vendor/espressif/partitions_0x0_amp_4M.dtsi:65 */
+					};
+				};
+			};
+		};
+
+		/* node '/soc/uart@60000000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:208 */
+		uart0: uart@60000000 {
+			compatible = "espressif,esp32-uart"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:209 */
+			reg = < 0x60000000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:210 */
+			interrupts = < 0x1b 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:211 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:212 */
+			clocks = < &clock 0x1 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:213 */
+			status = "okay";                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:48 */
+			current-speed = < 0x1c200 >;         /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:49 */
+			pinctrl-0 = < &uart0_default >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:50 */
+			pinctrl-names = "default";           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:51 */
+		};
+
+		/* node '/soc/uart@60010000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:217 */
+		uart1: uart@60010000 {
+			compatible = "espressif,esp32-uart"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:218 */
+			reg = < 0x60010000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:219 */
+			interrupts = < 0x1c 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:220 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:221 */
+			clocks = < &clock 0x2 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:222 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:223 */
+		};
+
+		/* node '/soc/uart@6002e000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:226 */
+		uart2: uart@6002e000 {
+			compatible = "espressif,esp32-uart"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:227 */
+			reg = < 0x6002e000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:228 */
+			interrupts = < 0x1d 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:229 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:230 */
+			clocks = < &clock 0x3 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:231 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:232 */
+		};
+
+		/* node '/soc/gpio' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:235 */
+		gpio: gpio {
+			compatible = "simple-bus";                                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:236 */
+			gpio-map-mask = < 0xffffffe0 0xffffffc0 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:237 */
+			gpio-map-pass-thru = < 0x1f 0x3f >;                            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:238 */
+			gpio-map = < 0x0 0x0 &gpio0 0x0 0x0 0x20 0x0 &gpio1 0x0 0x0 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:239 */
+			#gpio-cells = < 0x2 >;                                         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:243 */
+			#address-cells = < 0x1 >;                                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:244 */
+			#size-cells = < 0x1 >;                                         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:245 */
+			ranges;                                                        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:246 */
+
+			/* node '/soc/gpio/gpio@60004000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:248 */
+			gpio0: gpio@60004000 {
+				compatible = "espressif,esp32-gpio"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:249 */
+				gpio-controller;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:250 */
+				#gpio-cells = < 0x2 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:251 */
+				reg = < 0x60004000 0x800 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:252 */
+				interrupts = < 0x10 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:253 */
+				interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:254 */
+				ngpios = < 0x20 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:260 */
+				status = "okay";                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:55 */
+				phandle = < 0x5 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:239 */
+			};
+
+			/* node '/soc/gpio/gpio@60004800' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:263 */
+			gpio1: gpio@60004800 {
+				compatible = "espressif,esp32-gpio"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:264 */
+				gpio-controller;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:265 */
+				#gpio-cells = < 0x2 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:266 */
+				reg = < 0x60004800 0x800 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:267 */
+				interrupts = < 0x10 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:268 */
+				interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:269 */
+				ngpios = < 0x16 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:270 */
+				status = "okay";                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:59 */
+				phandle = < 0x6 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:239 */
+			};
+		};
+
+		/* node '/soc/touch@6000885c' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:274 */
+		touch: touch@6000885c {
+			compatible = "espressif,esp32-touch";      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:275 */
+			reg = < 0x6000885c 0x88 0x60008908 0x18 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:276 */
+			interrupts = < 0x27 0x0 0x0 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:277 */
+			interrupt-parent = < &intc >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:278 */
+			status = "disabled";                       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:279 */
+			debounce-interval-ms = < 0x1e >;           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:63 */
+			href-microvolt = < 0x2932e0 >;             /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:64 */
+			lref-microvolt = < 0x7a120 >;              /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:65 */
+			href-atten-microvolt = < 0xf4240 >;        /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:66 */
+			filter-mode = < 0x2 >;                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:67 */
+			filter-debounce-cnt = < 0x1 >;             /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:68 */
+			filter-noise-thr = < 0x0 >;                /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:69 */
+			filter-jitter-step = < 0x4 >;              /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:70 */
+			filter-smooth-level = < 0x1 >;             /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:71 */
+		};
+
+		/* node '/soc/i2c@60013000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:282 */
+		i2c0: i2c@60013000 {
+			compatible = "espressif,esp32-i2c"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:283 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:284 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:285 */
+			reg = < 0x60013000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:286 */
+			interrupts = < 0x2a 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:287 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:288 */
+			clocks = < &clock 0x5 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:289 */
+			status = "disabled";                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:290 */
+			clock-frequency = < 0x186a0 >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:75 */
+			pinctrl-0 = < &i2c0_default >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:76 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:77 */
+		};
+
+		/* node '/soc/i2c@60027000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:293 */
+		i2c1: i2c@60027000 {
+			compatible = "espressif,esp32-i2c"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:294 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:295 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:296 */
+			reg = < 0x60027000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:297 */
+			interrupts = < 0x2b 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:298 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:299 */
+			clocks = < &clock 0x6 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:300 */
+			status = "disabled";                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:301 */
+			clock-frequency = < 0x186a0 >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:81 */
+			pinctrl-0 = < &i2c1_default >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:82 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:83 */
+		};
+
+		/* node '/soc/i2s@6000f000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:304 */
+		i2s0: i2s@6000f000 {
+			compatible = "espressif,esp32-i2s"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:305 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:306 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:307 */
+			reg = < 0x6000f000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:308 */
+			interrupts = < 0x19 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:309 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:310 */
+			clocks = < &clock 0x7 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:311 */
+			dmas = < &dma 0x2 >,
+			       < &dma 0x3 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:312 */
+			dma-names = "rx",
+			            "tx";                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:313 */
+			unit = < 0x0 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:314 */
+			pinctrl-0 = < &i2s0_default >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:87 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:88 */
+			status = "disabled";                /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:89 */
+		};
+
+		/* node '/soc/i2s@6002d000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:318 */
+		i2s1: i2s@6002d000 {
+			compatible = "espressif,esp32-i2s"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:319 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:320 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:321 */
+			reg = < 0x6002d000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:322 */
+			interrupts = < 0x1a 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:323 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:324 */
+			clocks = < &clock 0x8 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:325 */
+			dmas = < &dma 0x4 >,
+			       < &dma 0x5 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:326 */
+			dma-names = "rx",
+			            "tx";                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:327 */
+			unit = < 0x1 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:328 */
+			pinctrl-0 = < &i2s1_default >;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:93 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:94 */
+			status = "disabled";                /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:95 */
+		};
+
+		/* node '/soc/spi@60024000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:332 */
+		spi2: spi@60024000 {
+			compatible = "espressif,esp32-spi"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:333 */
+			reg = < 0x60024000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:334 */
+			interrupts = < 0x15 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:335 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:336 */
+			clocks = < &clock 0x15 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:337 */
+			dma-clk = < 0x25 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:338 */
+			dma-host = < 0x0 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:339 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:99 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:100 */
+			status = "okay";                    /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:101 */
+			pinctrl-0 = < &spim2_default >;     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:102 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:103 */
+		};
+
+		/* node '/soc/spi@60025000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:343 */
+		spi3: spi@60025000 {
+			compatible = "espressif,esp32-spi"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:344 */
+			reg = < 0x60025000 0x1000 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:345 */
+			interrupts = < 0x16 0x0 0x0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:346 */
+			interrupt-parent = < &intc >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:347 */
+			clocks = < &clock 0x16 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:348 */
+			dma-clk = < 0x25 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:349 */
+			dma-host = < 0x1 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:350 */
+			#address-cells = < 0x1 >;           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:107 */
+			#size-cells = < 0x0 >;              /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:108 */
+			status = "okay";                    /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:109 */
+			pinctrl-0 = < &spim3_default >;     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:110 */
+			pinctrl-names = "default";          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:111 */
+		};
+
+		/* node '/soc/coretemp@60008800' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:354 */
+		coretemp: coretemp@60008800 {
+			compatible = "espressif,esp32-temp"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:355 */
+			friendly-name = "coretemp";          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:356 */
+			reg = < 0x60008800 0x4 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:357 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:358 */
+		};
+
+		/* node '/soc/adc@60040000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:361 */
+		adc0: adc@60040000 {
+			compatible = "espressif,esp32-adc"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:362 */
+			reg = < 0x60040000 0x4 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:363 */
+			clocks = < &clock 0x27 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:364 */
+			unit = < 0x1 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:365 */
+			channel-count = < 0xa >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:366 */
+			#io-channel-cells = < 0x1 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:367 */
+			status = "disabled";                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:368 */
+		};
+
+		/* node '/soc/adc@60040004' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:371 */
+		adc1: adc@60040004 {
+			compatible = "espressif,esp32-adc"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:372 */
+			reg = < 0x60040004 0x4 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:373 */
+			clocks = < &clock 0x27 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:374 */
+			unit = < 0x2 >;                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:375 */
+			channel-count = < 0xa >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:376 */
+			#io-channel-cells = < 0x1 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:377 */
+			status = "disabled";                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:378 */
+		};
+
+		/* node '/soc/can@6002b000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:381 */
+		twai: can@6002b000 {
+			compatible = "espressif,esp32-twai"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:382 */
+			reg = < 0x6002b000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:383 */
+			interrupts = < 0x25 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:384 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:385 */
+			clocks = < &clock 0x18 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:386 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:387 */
+			pinctrl-0 = < &twai_default >;       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:115 */
+			pinctrl-names = "default";           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:116 */
+		};
+
+		/* node '/soc/lcd_cam@60041000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:390 */
+		lcd_cam: lcd_cam@60041000 {
+			compatible = "espressif,esp32-lcd-cam"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:391 */
+			reg = < 0x60041000 0x1000 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:392 */
+			clocks = < &clock 0x9 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:393 */
+			interrupts = < 0x18 0x0 0x0 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:394 */
+			interrupt-parent = < &intc >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:395 */
+			status = "disabled";                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:396 */
+		};
+
+		/* node '/soc/uart@60038000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:399 */
+		usb_serial: uart@60038000 {
+			compatible = "espressif,esp32-usb-serial"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:400 */
+			reg = < 0x60038000 0x1000 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:401 */
+			interrupts = < 0x60 0x0 0x0 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:403 */
+			interrupt-parent = < &intc >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:404 */
+			clocks = < &clock 0x4 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:405 */
+			status = "disabled";                       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:144 */
+		};
+
+		/* node '/soc/counter@6001f000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:408 */
+		timer0: counter@6001f000 {
+			compatible = "espressif,esp32-timer"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:409 */
+			reg = < 0x6001f000 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:410 */
+			clocks = < &clock 0xa >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:411 */
+			group = < 0x0 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:412 */
+			index = < 0x0 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:413 */
+			interrupts = < 0x32 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:414 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:415 */
+			status = "disabled";                  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:120 */
+
+			/* node '/soc/counter@6001f000/counter' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:418 */
+			counter {
+				compatible = "espressif,esp32-counter"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:419 */
+				status = "disabled";                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:420 */
+			};
+		};
+
+		/* node '/soc/counter@6001f024' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:424 */
+		timer1: counter@6001f024 {
+			compatible = "espressif,esp32-timer"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:425 */
+			reg = < 0x6001f024 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:426 */
+			clocks = < &clock 0xa >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:427 */
+			group = < 0x0 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:428 */
+			index = < 0x1 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:429 */
+			interrupts = < 0x33 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:430 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:431 */
+			status = "disabled";                  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:124 */
+
+			/* node '/soc/counter@6001f024/counter' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:434 */
+			counter {
+				compatible = "espressif,esp32-counter"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:435 */
+				status = "disabled";                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:436 */
+			};
+		};
+
+		/* node '/soc/counter@60020000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:440 */
+		timer2: counter@60020000 {
+			compatible = "espressif,esp32-timer"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:441 */
+			reg = < 0x60020000 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:442 */
+			clocks = < &clock 0xb >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:443 */
+			group = < 0x1 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:444 */
+			index = < 0x0 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:445 */
+			interrupts = < 0x35 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:446 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:447 */
+			status = "disabled";                  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:128 */
+
+			/* node '/soc/counter@60020000/counter' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:450 */
+			counter {
+				compatible = "espressif,esp32-counter"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:451 */
+				status = "disabled";                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:452 */
+			};
+		};
+
+		/* node '/soc/counter@60020024' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:456 */
+		timer3: counter@60020024 {
+			compatible = "espressif,esp32-timer"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:457 */
+			reg = < 0x60020024 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:458 */
+			clocks = < &clock 0xb >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:459 */
+			group = < 0x1 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:460 */
+			index = < 0x1 >;                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:461 */
+			interrupts = < 0x36 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:462 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:463 */
+			status = "disabled";                  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:132 */
+
+			/* node '/soc/counter@60020024/counter' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:465 */
+			counter {
+				compatible = "espressif,esp32-counter"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:466 */
+				status = "disabled";                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:467 */
+			};
+		};
+
+		/* node '/soc/watchdog@6001f048' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:471 */
+		wdt0: watchdog@6001f048 {
+			compatible = "espressif,esp32-watchdog"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:472 */
+			reg = < 0x6001f048 0x20 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:473 */
+			interrupts = < 0x34 0x0 0x0 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:474 */
+			interrupt-parent = < &intc >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:475 */
+			clocks = < &clock 0xa >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:476 */
+			status = "okay";                         /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:136 */
+		};
+
+		/* node '/soc/watchdog@60020048' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:480 */
+		wdt1: watchdog@60020048 {
+			compatible = "espressif,esp32-watchdog"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:481 */
+			reg = < 0x60020048 0x20 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:482 */
+			interrupts = < 0x37 0x0 0x0 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:483 */
+			interrupt-parent = < &intc >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:484 */
+			clocks = < &clock 0xb >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:485 */
+			status = "disabled";                     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:486 */
+		};
+
+		/* node '/soc/trng@6003507c' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:489 */
+		trng0: trng@6003507c {
+			compatible = "espressif,esp32-trng"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:490 */
+			reg = < 0x6003507c 0x4 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:491 */
+			status = "okay";                     /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:140 */
+		};
+
+		/* node '/soc/ledc@60019000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:495 */
+		ledc0: ledc@60019000 {
+			compatible = "espressif,esp32-ledc"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:496 */
+			#pwm-cells = < 0x3 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:497 */
+			reg = < 0x60019000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:498 */
+			clocks = < &clock 0x0 >;             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:499 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:500 */
+		};
+
+		/* node '/soc/mcpwm@6001e000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:503 */
+		mcpwm0: mcpwm@6001e000 {
+			compatible = "espressif,esp32-mcpwm"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:504 */
+			reg = < 0x6001e000 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:505 */
+			interrupts = < 0x1f 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:506 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:507 */
+			clocks = < &clock 0xc >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:508 */
+			#pwm-cells = < 0x3 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:509 */
+			status = "disabled";                  /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:510 */
+		};
+
+		/* node '/soc/mcpwm@6002c000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:513 */
+		mcpwm1: mcpwm@6002c000 {
+			compatible = "espressif,esp32-mcpwm"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:514 */
+			reg = < 0x6002c000 0x1000 >;          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:515 */
+			interrupts = < 0x20 0x0 0x0 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:516 */
+			interrupt-parent = < &intc >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:517 */
+			clocks = < &clock 0xd >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:518 */
+			#pwm-cells = < 0x3 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:519 */
+			status = "disabled";                  /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:520 */
+		};
+
+		/* node '/soc/pcnt@60017000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:523 */
+		pcnt: pcnt@60017000 {
+			compatible = "espressif,esp32-pcnt"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:524 */
+			reg = < 0x60017000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:525 */
+			interrupts = < 0x29 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:526 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:527 */
+			clocks = < &clock 0x13 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:528 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:529 */
+		};
+
+		/* node '/soc/dma@6003f000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:532 */
+		dma: dma@6003f000 {
+			compatible = "espressif,esp32-gdma"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:533 */
+			reg = < 0x6003f000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:534 */
+			#dma-cells = < 0x1 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:535 */
+			interrupts = < 0x42 0x0 0x100 >,
+			             < 0x47 0x0 0x100 >,
+			             < 0x43 0x0 0x100 >,
+			             < 0x48 0x0 0x100 >,
+			             < 0x44 0x0 0x100 >,
+			             < 0x49 0x0 0x100 >,
+			             < 0x45 0x0 0x100 >,
+			             < 0x4a 0x0 0x100 >,
+			             < 0x46 0x0 0x100 >,
+			             < 0x4b 0x0 0x100 >;     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:536 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:547 */
+			clocks = < &clock 0x25 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:548 */
+			dma-channels = < 0xa >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:549 */
+			dma-buf-addr-alignment = < 0x4 >;    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:550 */
+			status = "disabled";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:551 */
+			phandle = < 0x9 >;                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:312 */
+		};
+
+		/* node '/soc/sdhc@60028000' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:554 */
+		sdhc: sdhc@60028000 {
+			compatible = "espressif,esp32-sdhc"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:555 */
+			reg = < 0x60028000 0x1000 >;         /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:556 */
+			interrupts = < 0x1e 0x0 0x0 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:557 */
+			interrupt-parent = < &intc >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:558 */
+			clocks = < &clock 0x17 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:559 */
+			#address-cells = < 0x1 >;            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:560 */
+			#size-cells = < 0x0 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:561 */
+
+			/* node '/soc/sdhc@60028000/sdhc@0' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:563 */
+			sdhc0: sdhc@0 {
+				compatible = "espressif,esp32-sdhc-slot"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:564 */
+				reg = < 0x0 >;                            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:565 */
+				status = "disabled";                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:566 */
+			};
+
+			/* node '/soc/sdhc@60028000/sdhc@1' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:569 */
+			sdhc1: sdhc@1 {
+				compatible = "espressif,esp32-sdhc-slot"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:570 */
+				reg = < 0x1 >;                            /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:571 */
+				status = "disabled";                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:572 */
+			};
+		};
+	};
+
+	/* node '/cpus' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:28 */
+	cpus {
+		#address-cells = < 0x1 >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:29 */
+		#size-cells = < 0x0 >;    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:30 */
+
+		/* node '/cpus/cpu@0' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:32 */
+		cpu0: cpu@0 {
+			device_type = "cpu";                             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:33 */
+			compatible = "espressif,xtensa-lx7";             /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:34 */
+			reg = < 0x0 >;                                   /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:35 */
+			cpu-power-states = < &light_sleep &deep_sleep >; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:36 */
+			clock-source = < 0x1 >;                          /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:37 */
+			clock-frequency = < 0xe4e1c00 >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:38 */
+			xtal-freq = < 0x2625a00 >;                       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:39 */
+		};
+
+		/* node '/cpus/cpu@1' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:42 */
+		cpu1: cpu@1 {
+			device_type = "cpu";                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:43 */
+			compatible = "espressif,xtensa-lx7"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:44 */
+			reg = < 0x1 >;                       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:45 */
+			clock-source = < 0x1 >;              /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:46 */
+			clock-frequency = < 0xe4e1c00 >;     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:47 */
+			xtal-freq = < 0x2625a00 >;           /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:48 */
+		};
+
+		/* node '/cpus/power-states' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:51 */
+		power-states {
+
+			/* node '/cpus/power-states/light_sleep' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:52 */
+			light_sleep: light_sleep {
+				compatible = "zephyr,power-state"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:53 */
+				power-state-name = "standby";      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:54 */
+				min-residency-us = < 0xc8 >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:55 */
+				exit-latency-us = < 0x85 >;        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:56 */
+				phandle = < 0xf >;                 /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:36 */
+			};
+
+			/* node '/cpus/power-states/deep_sleep' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:59 */
+			deep_sleep: deep_sleep {
+				compatible = "zephyr,power-state"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:60 */
+				power-state-name = "soft-off";     /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:61 */
+				min-residency-us = < 0x7d0 >;      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:62 */
+				exit-latency-us = < 0x17e >;       /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:63 */
+				phandle = < 0x10 >;                /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:36 */
+			};
+		};
+	};
+
+	/* node '/wifi' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:68 */
+	wifi: wifi {
+		compatible = "espressif,esp32-wifi"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:69 */
+		status = "okay";                     /* in app/wifi/build/zephyr/boards/esp32s3_devkitm.overlay:2 */
+	};
+
+	/* node '/esp32_bt_hci' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:73 */
+	esp32_bt_hci: esp32_bt_hci {
+		compatible = "espressif,esp32-bt-hci"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:74 */
+		status = "okay";                       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:148 */
+	};
+
+	/* node '/pin-controller' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:78 */
+	pinctrl: pin-controller {
+		compatible = "espressif,esp32-pinctrl"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:79 */
+		status = "okay";                        /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:80 */
+
+		/* node '/pin-controller/uart0_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:12 */
+		uart0_default: uart0_default {
+			phandle = < 0x4 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:50 */
+
+			/* node '/pin-controller/uart0_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:13 */
+			group1 {
+				pinmux = < 0x67feb >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:14 */
+				output-high;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:15 */
+			};
+
+			/* node '/pin-controller/uart0_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:17 */
+			group2 {
+				pinmux = < 0xff832c >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:18 */
+				bias-pull-up;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:19 */
+			};
+		};
+
+		/* node '/pin-controller/uart1_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:23 */
+		uart1_default: uart1_default {
+
+			/* node '/pin-controller/uart1_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:24 */
+			group1 {
+				pinmux = < 0x7ffd1 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:25 */
+				output-high;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:26 */
+			};
+
+			/* node '/pin-controller/uart1_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:28 */
+			group2 {
+				pinmux = < 0xff83d2 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:29 */
+				bias-pull-up;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:30 */
+			};
+		};
+
+		/* node '/pin-controller/i2c0_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:34 */
+		i2c0_default: i2c0_default {
+			phandle = < 0x7 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:76 */
+
+			/* node '/pin-controller/i2c0_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:35 */
+			group1 {
+				pinmux = < 0x2d1681 >,
+				         < 0x2c9642 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:36 */
+				bias-pull-up;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:38 */
+				drive-open-drain;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:39 */
+				output-high;           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:40 */
+			};
+		};
+
+		/* node '/pin-controller/i2c1_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:44 */
+		i2c1_default: i2c1_default {
+			phandle = < 0x8 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:82 */
+
+			/* node '/pin-controller/i2c1_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:45 */
+			group1 {
+				pinmux = < 0x2e1704 >,
+				         < 0x2d96c5 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:46 */
+				bias-pull-up;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:48 */
+				drive-open-drain;      /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:49 */
+				output-high;           /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:50 */
+			};
+		};
+
+		/* node '/pin-controller/i2s0_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:54 */
+		i2s0_default: i2s0_default {
+			phandle = < 0xa >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:87 */
+
+			/* node '/pin-controller/i2s0_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:55 */
+			group1 {
+				pinmux = < 0xbffc1 >,
+				         < 0xc0602 >,
+				         < 0xb0583 >,
+				         < 0xcffc4 >,
+				         < 0xd86c5 >,
+				         < 0xd0686 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:56 */
+				output-enable;        /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:62 */
+			};
+
+			/* node '/pin-controller/i2s0_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:64 */
+			group2 {
+				pinmux = < 0xff8647 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:65 */
+				input-enable;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:66 */
+			};
+		};
+
+		/* node '/pin-controller/i2s1_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:70 */
+		i2s1_default: i2s1_default {
+			phandle = < 0xb >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:93 */
+
+			/* node '/pin-controller/i2s1_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:71 */
+			group1 {
+				pinmux = < 0xaffc8 >,
+				         < 0xe8749 >,
+				         < 0xe070a >,
+				         < 0xf7fcb >,
+				         < 0x10080c >,
+				         < 0xf87cd >;  /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:72 */
+				output-enable;         /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:78 */
+			};
+
+			/* node '/pin-controller/i2s1_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:80 */
+			group2 {
+				pinmux = < 0xff878e >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:81 */
+				input-enable;          /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:82 */
+			};
+		};
+
+		/* node '/pin-controller/spim2_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:86 */
+		spim2_default: spim2_default {
+			phandle = < 0xc >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:102 */
+
+			/* node '/pin-controller/spim2_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:87 */
+			group1 {
+				pinmux = < 0xff998d >,
+				         < 0x32ffcc >,
+				         < 0x377fca >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:88 */
+			};
+
+			/* node '/pin-controller/spim2_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:92 */
+			group2 {
+				pinmux = < 0x33ffcb >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:93 */
+				output-low;            /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:94 */
+			};
+		};
+
+		/* node '/pin-controller/spim3_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:98 */
+		spim3_default: spim3_default {
+			phandle = < 0xd >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:110 */
+
+			/* node '/pin-controller/spim3_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:99 */
+			group1 {
+				pinmux = < 0xff90e5 >,
+				         < 0x217fe4 >,
+				         < 0x23ffe6 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:100 */
+			};
+
+			/* node '/pin-controller/spim3_default/group2' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:104 */
+			group2 {
+				pinmux = < 0x227fe7 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:105 */
+				output-low;            /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:106 */
+			};
+		};
+
+		/* node '/pin-controller/twai_default' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:110 */
+		twai_default: twai_default {
+			phandle = < 0xe >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:115 */
+
+			/* node '/pin-controller/twai_default/group1' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:111 */
+			group1 {
+				pinmux = < 0x3a7fc5 >,
+				         < 0xff9d06 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm-pinctrl.dtsi:112 */
+			};
+		};
+	};
+
+	/* node '/clock' defined in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:83 */
+	clock: clock {
+		compatible = "espressif,esp32-clock"; /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:84 */
+		fast-clk-src = < 0x1 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:85 */
+		slow-clk-src = < 0x0 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:86 */
+		#clock-cells = < 0x1 >;               /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:87 */
+		status = "okay";                      /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:88 */
+		phandle = < 0x3 >;                    /* in external/zephyr/dts/xtensa/espressif/esp32s3/esp32s3_common.dtsi:179 */
+	};
+
+	/* node '/buttons' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:37 */
+	buttons {
+		compatible = "gpio-keys"; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:38 */
+
+		/* node '/buttons/button_0' defined in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:39 */
+		button0: button_0 {
+			gpios = < &gpio0 0x0 0x11 >; /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:40 */
+			label = "BOOT Button";       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:41 */
+			zephyr,code = < 0xb >;       /* in external/zephyr/boards/espressif/esp32s3_devkitm/esp32s3_devkitm_procpu.dts:42 */
+		};
+	};
+};
