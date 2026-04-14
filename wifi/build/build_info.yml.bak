@@ -1,5 +1,0 @@
-west:
-  command: /home/yangjie/zephyr/.venv/bin/west build -p always -b esp32s3_devkitm/esp32s3/procpu
-    -- -DDTC_OVERLAY_FILE=boards/esp32s3_devkitm.overlay -DEXTRA_CONF_FILE=boards/esp32s3_devkitm.conf
-  topdir: /home/yangjie/zephyr
-  version: 1.5.0

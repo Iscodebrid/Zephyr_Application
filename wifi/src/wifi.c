@@ -28,14 +28,14 @@ static void on_wifi_connection_event(struct net_mgmt_event_callback *cb,
 
         }else{
             printk("Connected!\r\n");
-            k_sem_give(&sem_wifi);
+            
         }
+        k_sem_give(&sem_wifi);
     }else if(mgmt_event == NET_EVENT_WIFI_DISCONNECT_RESULT){
         if(status->status){
-            printk("Error (%d): Dissconnection request failed\r\n", status->status);
+            printk("Error (%d): Disconnection request failed\r\n", status->status);
         }else {
             printk("Dissconnected\r\n");
-            k_sem_take(&sem_wifi, K_NO_WAIT);
         }
     }
 
