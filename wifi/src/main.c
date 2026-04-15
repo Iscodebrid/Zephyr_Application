@@ -1,7 +1,4 @@
 /*yangjie1 creat new git repo */
-
-
-
 #include <stdio.h>
 #include <string.h>
 #include <zephyr/kernel.h>

@@ -1,8 +1,6 @@
 #include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/net/wifi_mgmt.h>
-
-
 //Event callbacks
 
 static struct net_mgmt_event_callback wifi_cb;
@@ -16,30 +14,38 @@ static K_SEM_DEFINE(sem_ipv4, 0, 1);
 // called when the wifi is connected
 
 static void on_wifi_connection_event(struct net_mgmt_event_callback *cb,
-                                    uint32_t mgmt_event,
-                                    struct net_if *iface)
-
+                                     uint32_t mgmt_event,
+                                     struct net_if *iface)
 {
-    const struct wifi_status *status = (const struct wifi_status *) cb->info;
-
-    if(mgmt_event == NET_EVENT_WIFI_CONNECT_RESULT) {
-        if(status->status){
-            printk("Error (%d) : Connection request failed\r\n", status->status);
-
-        }else{
-            printk("Connected!\r\n");
+	switch (mgmt_event) {
+	case NET_EVENT_WIFI_SCAN_RESULT:
+		{
+            //CB中的信息就是scan的结果
+            const struct wifi_scan_result *entry =	(const struct wifi_scan_result *)cb->info;
         }
-        k_sem_give(&sem_wifi);
-    }else if(mgmt_event == NET_EVENT_WIFI_DISCONNECT_RESULT){
-        if(status->status){
-            printk("Error (%d): Disconnection request failed\r\n", status->status);
-        }else {
-            printk("Dissconnected\r\n");
+		break;
+	case NET_EVENT_WIFI_SCAN_DONE:
+		{
+            //CB中的信息是wifi状态
+            const struct wifi_status *status = (const struct wifi_status *)cb->info;
         }
-    }
-
+		break;
+	case NET_EVENT_WIFI_CONNECT_RESULT:
+		{
+            //CB中的信息是wifi状态
+            const struct wifi_status *status = (const struct wifi_status *)cb->info;
+        }
+		break;
+	case NET_EVENT_WIFI_DISCONNECT_RESULT:
+		{
+            //CB中的信息是wifi状态
+            const struct wifi_status *status = (const struct wifi_status *)cb->info;
+        }
+		break;
+	default:
+		break;
+	}
 }
-
 
 //Event handler for wifi management events 
 static void on_ipv4_obtained(struct net_mgmt_event_callback *cb,
@@ -47,9 +53,13 @@ static void on_ipv4_obtained(struct net_mgmt_event_callback *cb,
                             struct net_if *iface
 )
 {
+    printk("ADDR_ADD = %u\n", NET_EVENT_IPV4_ADDR_ADD);
+    printk("DHCP_BOUND = %u\n", NET_EVENT_IPV4_DHCP_BOUND);
+    printk("RECEIVED = %u\n", mgmt_event);
     //Signal that ip address has been obtained
     if(mgmt_event == NET_EVENT_IPV4_ADDR_ADD){
         k_sem_give(&sem_ipv4);
+        printk("this line has been excu");
     }
 }
 
@@ -121,7 +131,6 @@ void wifi_wait_for_ip_addr(void)
     iface = net_if_get_default();
 
     //Wait for the IPv4 address to be obtained
-    k_sem_take(&sem_ipv4, K_FOREVER);
 
     //get the wifi status
     if(net_mgmt(NET_REQUEST_WIFI_IFACE_STATUS,
