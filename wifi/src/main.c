@@ -1,167 +1,158 @@
+<<<<<<< HEAD
 /*yangjie1 creat new git repo */
+=======
+
+>>>>>>> 0cb623d (4/19 wifi can connect and ping success)
 #include <stdio.h>
 #include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/net/socket.h>
+#include <zephyr/net/net_event.h>
+#include <errno.h>
+#include <zephyr/net/wifi_mgmt.h>
+
 
 
 //custom libraried
 #include "wifi.h"
+#include "ping.h"
+#include "http_get.h"
+
+static struct net_mgmt_event_callback wifi_cb;
+static struct net_mgmt_event_callback ipv4_cb;
+
+static K_SEM_DEFINE(sem_wifi, 0, 1);
+static K_SEM_DEFINE(sem_ipv4, 0, 1);
+
 
 //wifi settings
-#define WIFI_SSID "H70X"
-#define WIFI_PSK "free1239"
+#define SSID "H70X"
+#define PSK "free1239"
 
-//HTTP GET settings
-#define HTTP_HOST "example.com"
-#define HTTP_URL "/"
-
-//Globals
-static char response[512];
-
-//print the result of a DNS lookup
-
-void print_addrinfo(struct zsock_addrinfo **result)
+// called when the wifi is connected
+static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
 {
-    char ipv4[INET_ADDRSTRLEN];
-    char ipv6[INET6_ADDRSTRLEN];
-    struct sockaddr_in *sa;
-    struct sockaddr_in6 *sa6;
-    struct zsock_addrinfo *rp;
+    const struct wifi_status *status = (const struct wifi_status *) cb->info;
 
-    //Iterate through the results
-    for(rp = *result; rp != NULL; rp = rp->ai_next){
-        //Print IPv4
-        if(rp->ai_addr->sa_family == AF_INET){
-            sa = (struct sockaddr_in *)rp->ai_addr;
-            zsock_inet_ntop(AF_INET, &sa->sin_addr, ipv4, INET_ADDRSTRLEN);
-            printk("IPv4:%s\r\n", ipv4);
-        }
+    if(status->status)
+    {
+        printk("connect request failed (%d)\n", status->status);
     }
-
-    //print ipv6 address
-    if(rp->ai_addr->sa_family == AF_INET6){
-        sa6 = (struct sockaddr_in6 *) rp->ai_addr;
-        zsock_inet_ntop(AF_INET6, &sa6->sin6_addr, ipv6, INET6_ADDRSTRLEN);
-        printk("IPv6: %s\r\n", ipv6);
+    else
+    {
+        printk("Connected\n");
+        k_sem_give(&sem_wifi);
     }
 }
+
+// deal disconnect
+static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
+{
+    const struct wifi_status *status = (const struct wifi_status *) cb->info;
+
+    if(status->status)
+    {
+        printk("Disconnnect request (%d)", status->status);
+    }
+    else
+    {
+        printk("Disconnectd\n");
+        k_sem_take(&sem_wifi, K_NO_WAIT);
+    }
+    
+}
+
+//handle ipv4
+//
+static void handle_ipv4_result(struct net_if *iface)
+{
+    int i=0;
+    for(i = 0; i< NET_IF_MAX_IPV4_ADDR; i++)
+    {
+        char buf[NET_IPV4_ADDR_LEN];
+
+        if(iface->config.ip.ipv4->unicast[i].ipv4.addr_type != NET_ADDR_DHCP)
+        {
+            continue;
+        }
+        printk("IPv4 address: %s\n",
+                net_addr_ntop(AF_INET,
+                                &iface->config.ip.ipv4->unicast[i].ipv4.address.in_addr,
+                                buf, sizeof(buf)));
+        printk("Subnet: %s\n",
+                net_addr_ntop(AF_INET,
+                                &iface->config.ip.ipv4->unicast[i].netmask,
+                                buf, sizeof(buf)));
+        printk("Router: %s\n",
+                net_addr_ntop(AF_INET,
+                                &iface->config.ip.ipv4->gw,
+                                buf, sizeof(buf)));
+    }
+    k_sem_give(&sem_ipv4);
+}
+
+
+static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint64_t mgmt_event, struct net_if *iface)
+{
+    switch (mgmt_event)
+    {
+
+        case NET_EVENT_WIFI_CONNECT_RESULT:
+            handle_wifi_connect_result(cb);
+            break;
+
+        case NET_EVENT_WIFI_DISCONNECT_RESULT:
+            handle_wifi_disconnect_result(cb);
+            break;
+
+        case NET_EVENT_IPV4_ADDR_ADD:
+            handle_ipv4_result(iface);
+            break;
+
+        default:
+            break;
+    }
+}
+
 
 
 int main(void)
 {
-    struct zsock_addrinfo hints;
-    struct zsock_addrinfo *res;
-    char http_request[512];
     int sock;
-    int len;
-    uint32_t rx_total;
-    int ret;
 
+    printk("WiFi Example\nBoard: %s\n", CONFIG_BOARD);
 
-    printk("HTTP GET Demo\r\n");
+    net_mgmt_init_event_callback(&wifi_cb, wifi_mgmt_event_handler,
+                                 NET_EVENT_WIFI_CONNECT_RESULT | NET_EVENT_WIFI_DISCONNECT_RESULT);
 
-    //Initialize Wifi
-    wifi_init();
+    net_mgmt_init_event_callback(&ipv4_cb, wifi_mgmt_event_handler, NET_EVENT_IPV4_ADDR_ADD);
 
-    //connect to the wifi networking (blovking)
-    ret = wifi_connect(WIFI_SSID, WIFI_PSK);
-    if(ret<0)
-    {
-        printk("Error (%d): wifi connect failed\r\n", ret);
-        return 0;
-    }
-    //wait to receive an ip address(blocking)
-    wifi_wait_for_ip_addr();
+    net_mgmt_add_event_callback(&wifi_cb);
+    net_mgmt_add_event_callback(&ipv4_cb);
 
-    //Construct HTTP GET request
-    snprintf(http_request,
-        sizeof(http_request),
-        "GET %s HTTP/1.1\r\n"
-        "Host: %s\r\n"
-        "Connection: close\r\n"
-        "\r\n",
-        HTTP_URL,
-        HTTP_HOST);
-    
-    // clear and set address info
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
+    wifi_connect(SSID, PSK);
+    k_sem_take(&sem_wifi, K_FOREVER);
+    wifi_status();
+    k_sem_take(&sem_ipv4, K_FOREVER);
+    printk("Ready...\n\n");
 
-    //perform DNS lookup
-    printk("Performing DNS lookup..\r\n");
-    ret = zsock_getaddrinfo(HTTP_HOST, "80", &hints, &res);
+    // Ping Google DNS 4 times
+    ping("8.8.8.8", 4);
 
-    if(ret != 0)
-    {
-        printk("Error (%d): Could not perform DNS lookup\r\n", ret);
-        return 0;
-    }
+    printk("\nLooking up IP addresses:\n");
+    struct zsock_addrinfo *res;
+    nslookup("iot.beyondlogic.org", &res);
+    print_addrinfo_results(&res);
 
-    //print the results of the DNS lookup
-    print_addrinfo(&res);
-
-    //Creat a new socket
-    sock = zsock_socket (res->ai_family, res->ai_socktype, res->ai_protocol);
-    if(sock < 0)
-    {
-        printk("Error(%d): could not creat socket\r\n", errno);
-        return 0;
-    }
-
-    //Connect the socket
-    ret = zsock_connect(sock, res->ai_addr, res->ai_addrlen);
-    if(ret < 0){
-        printk("Error (%d) : Could not connect the socket\r\n", errno);
-        return 0;
-    }
-
-    //Set the request
-    printk("Sending HTTP requset...\r\n");
-    ret = zsock_send(sock, http_request, strlen(http_request), 0);
-    if(ret < 0)
-    {
-        printk("Erro (%d): could not send request\r\n", errno);
-        return 0;
-    }
-
-    // print the response
-    printk("Response: \r\n\r\n");
-    rx_total = 0;
-    while (1)
-    {
-        /* code */
-        //receive data from the socket
-        len = zsock_recv(sock, response, sizeof(response) - 1, 0);
-
-        //check for error
-        if(len < 0)
-        {
-            printk("Receive error (%d): %s\r\n", errno, strerror(errno));
-            return 0;
-        }
-
-        // Check for end of data
-        if(len == 0)
-        {
-            break;
-        }
-
-        // NUll -terminate the response string and print it 
-        response[len] = '\0';
-        printk("%s", response);
-        rx_total += len;
-
-    }
-    
-    //print the total number of bytes received
-    printk("\r\nTotal bytes received :%u\r\n", rx_total);
-
-    //close the socket
+    printk("\nConnecting to HTTP Server:\n");
+    sock = connect_socket(&res, 80);
+    http_get(sock, "httpbin.org", "/get");
     zsock_close(sock);
+    
+    // Stay connected for 30 seconds, then disconnect.
+    //k_sleep(K_SECONDS(30));    
+    //wifi_disconnect();
 
-    return 0;
-
+    return(0);
+    
 }
-
