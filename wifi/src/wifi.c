@@ -1,7 +1,6 @@
 #include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/net/wifi_mgmt.h>
-<<<<<<< HEAD
 //Event callbacks
 
 static struct net_mgmt_event_callback wifi_cb;
@@ -14,39 +13,6 @@ static K_SEM_DEFINE(sem_ipv4, 0, 1);
 
 // called when the wifi is connected
 
-static void on_wifi_connection_event(struct net_mgmt_event_callback *cb,
-                                     uint32_t mgmt_event,
-                                     struct net_if *iface)
-{
-	switch (mgmt_event) {
-	case NET_EVENT_WIFI_SCAN_RESULT:
-		{
-            //CB中的信息就是scan的结果
-            const struct wifi_scan_result *entry =	(const struct wifi_scan_result *)cb->info;
-        }
-		break;
-	case NET_EVENT_WIFI_SCAN_DONE:
-		{
-            //CB中的信息是wifi状态
-            const struct wifi_status *status = (const struct wifi_status *)cb->info;
-        }
-		break;
-	case NET_EVENT_WIFI_CONNECT_RESULT:
-		{
-            //CB中的信息是wifi状态
-            const struct wifi_status *status = (const struct wifi_status *)cb->info;
-        }
-		break;
-	case NET_EVENT_WIFI_DISCONNECT_RESULT:
-		{
-            //CB中的信息是wifi状态
-            const struct wifi_status *status = (const struct wifi_status *)cb->info;
-        }
-		break;
-	default:
-		break;
-	}
-}
 
 //Event handler for wifi management events 
 static void on_ipv4_obtained(struct net_mgmt_event_callback *cb,
@@ -172,17 +138,10 @@ void wifi_wait_for_ip_addr(void)
     }
 }
 
-//Disconnect from the wifi network
-
-int wifi_dissconnect(void)
-{
-    int ret;
-=======
 
 
 void wifi_connect(char *SSID, char *PSK)
 {
->>>>>>> 0cb623d (4/19 wifi can connect and ping success)
     struct net_if *iface = net_if_get_default();
 
     struct wifi_connect_req_params wifi_params = {0};

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/*yangjie1 creat new git repo */
-=======
-
->>>>>>> 0cb623d (4/19 wifi can connect and ping success)
 #include <stdio.h>
 #include <string.h>
 #include <zephyr/kernel.h>
