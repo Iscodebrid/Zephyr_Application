@@ -136,7 +136,7 @@ int main(void)
 
     printk("\nLooking up IP addresses:\n");
     struct zsock_addrinfo *res;
-    nslookup("iot.beyondlogic.org", &res);
+    nslookup("httpbin.org", &res);
     print_addrinfo_results(&res);
 
     printk("\nConnecting to HTTP Server:\n");
