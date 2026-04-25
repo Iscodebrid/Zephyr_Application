@@ -1,0 +1,7 @@
+"cmsis_6":"/home/yangjie/zephyr/external/modules/hal/cmsis_6":"${ZEPHYR_CMSIS_6_CMAKE_DIR}"
+"hal_espressif":"/home/yangjie/zephyr/external/modules/hal/espressif":"/home/yangjie/zephyr/external/modules/hal/espressif/zephyr"
+"xtensa":"/home/yangjie/zephyr/external/modules/hal/xtensa":"/home/yangjie/zephyr/external/modules/hal/xtensa"
+"lvgl":"/home/yangjie/zephyr/external/modules/lib/gui/lvgl":"${ZEPHYR_LVGL_CMAKE_DIR}"
+"mbedtls":"/home/yangjie/zephyr/external/modules/crypto/mbedtls":"${ZEPHYR_MBEDTLS_CMAKE_DIR}"
+"picolibc":"/home/yangjie/zephyr/external/modules/lib/picolibc":"/home/yangjie/zephyr/external/modules/lib/picolibc"
+"segger":"/home/yangjie/zephyr/external/modules/debug/segger":"${ZEPHYR_SEGGER_CMAKE_DIR}"
