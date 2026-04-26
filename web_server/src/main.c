@@ -90,6 +90,87 @@ static void send_all(int fd, const char *data, size_t len)
     }
 }
 
+/* ===== HTML 页面（UTF-8 中文用转义避免编译器编码问题）===== */
+static const char html_body[] =
+    "<!DOCTYPE html><html><head>"
+    "<meta charset=\"utf-8\">"
+    "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+    "<title>ESP32 LED</title>"
+    "<style>"
+    "*{box-sizing:border-box;margin:0;padding:0}"
+    "body{font-family:-apple-system,sans-serif;background:#f5f5f0;"
+         "display:flex;align-items:center;justify-content:center;min-height:100vh}"
+    ".card{background:#fff;border-radius:16px;border:1px solid #e8e8e4;"
+          "padding:2rem;width:300px}"
+    ".chip{display:inline-flex;align-items:center;font-size:12px;"
+          "color:#3B6D11;background:#EAF3DE;border-radius:99px;"
+          "padding:3px 10px;margin-bottom:1.5rem}"
+    ".dot{width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+         "display:inline-block;margin-right:6px}"
+    "h1{font-size:18px;font-weight:500;color:#1a1a18;margin-bottom:4px}"
+    ".sub{font-size:13px;color:#888780;margin-bottom:1.75rem}"
+    ".tblock{background:#f5f5f0;border-radius:10px;padding:14px 16px;margin-bottom:1.75rem}"
+    ".tlabel{font-size:11px;color:#b4b2a9;margin-bottom:2px}"
+    ".tval{font-size:28px;font-weight:500;color:#1a1a18;"
+          "font-variant-numeric:tabular-nums;letter-spacing:1px}"
+    ".dval{font-size:12px;color:#888780;margin-top:2px}"
+    ".lrow{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}"
+    ".ldot{width:11px;height:11px;border-radius:50%;background:#d3d1c7;"
+          "transition:background .3s,box-shadow .3s}"
+    ".ldot.on{background:#EF9F27;box-shadow:0 0 0 4px #FAEEDA}"
+    ".llabel{font-size:13px;color:#888780}"
+    ".lstate{font-size:13px;font-weight:500;color:#1a1a18;margin-left:auto}"
+    ".brow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}"
+    ".btn{display:block;padding:13px 0;border-radius:10px;font-size:14px;"
+         "font-weight:500;cursor:pointer;border:1px solid #d3d1c7;background:#fff;"
+         "color:#444441;text-align:center;text-decoration:none;"
+         "-webkit-tap-highlight-color:transparent;transition:opacity .15s}"
+    ".btn:active{opacity:.75}"
+    ".bon{background:#EAF3DE;border-color:#97C459;color:#3B6D11}"
+    ".boff{background:#f5f5f0;border-color:#d3d1c7;color:#888780}"
+    ".foot{font-size:11px;color:#b4b2a9;text-align:center;"
+          "border-top:1px solid #e8e8e4;padding-top:1rem}"
+    "</style></head><body>"
+    "<div class=\"card\">"
+      "<div class=\"chip\"><span class=\"dot\"></span>AP \xe5\xb7\xb2\xe8\xbf\x9e\xe6\x8e\xa5</div>"
+      "<h1>LED \xe6\x8e\xa7\xe5\x88\xb6</h1>"
+      "<p class=\"sub\">ESP32-S3 &middot; 192.168.4.1</p>"
+      "<div class=\"tblock\">"
+        "<div class=\"tlabel\">\xe5\x8c\x97\xe4\xba\xac\xe6\x97\xb6\xe9\x97\xb4</div>"
+        "<div class=\"tval\" id=\"clk\">--:--:--</div>"
+        "<div class=\"dval\" id=\"dat\"></div>"
+      "</div>"
+      "<div class=\"lrow\">"
+        "<div class=\"ldot\" id=\"ldot\"></div>"
+        "<span class=\"llabel\">LED \xe7\x8a\xb6\xe6\x80\x81</span>"
+        "<span class=\"lstate\" id=\"lst\">\xe5\x85\xb3\xe9\x97\xad</span>"
+      "</div>"
+      "<div class=\"brow\">"
+        "<a href=\"/on\" class=\"btn bon\">\xe5\xbc\x80\xe5\x90\xaf</a>"
+        "<a href=\"/off\" class=\"btn boff\">\xe5\x85\xb3\xe9\x97\xad</a>"
+      "</div>"
+      "<div class=\"foot\">ESP32-S3 LED Server</div>"
+    "</div>"
+    "<script>"
+    /* 北京时间（手机浏览器本地计算，无需网络） */
+    "function p(n){return String(n).padStart(2,'0');}"
+    "function tick(){"
+      "var bj=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Shanghai'}));"
+      "document.getElementById('clk').textContent="
+        "p(bj.getHours())+':'+p(bj.getMinutes())+':'+p(bj.getSeconds());"
+      "document.getElementById('dat').textContent="
+        "bj.getFullYear()+'/'+ p(bj.getMonth()+1)+'/'+p(bj.getDate());"
+    "}"
+    "tick();setInterval(tick,1000);"
+    /* 根据当前路径同步 LED 状态显示 */
+    "var on=(location.pathname==='/on');"
+    "if(on){"
+      "document.getElementById('ldot').className='ldot on';"
+      "document.getElementById('lst').textContent='\xe5\xbc\x80\xe5\x90\xaf';"
+    "}"
+    "</script>"
+    "</body></html>";
+
 /* ===== HTTP Server ===== */
 static void start_http_server(void)
 {
@@ -160,24 +241,18 @@ static void start_http_server(void)
          * 修复：加上 Content-Length 和 Connection: close，
          * 防止浏览器等待更多数据导致页面转圈
          */
-        const char *body =
-            "<html><body>"
-            "<h1>ESP32 LED Control</h1>"
-            "<a href=\"/on\">ON</a><br>"
-            "<a href=\"/off\">OFF</a>"
-            "</body></html>";
-
-        char header[128];
+        int body_len = (int)(sizeof(html_body)-1);
+        char header[160];
         int header_len = snprintf(header, sizeof(header),
-            "HTTP/1.1 200 OK\r\n"
-            "Content-Type: text/html\r\n"
-            "Content-Length: %d\r\n"
-            "Connection: close\r\n"
-            "\r\n",
-            (int)strlen(body));
-
+                              "HTTP/1.0 200 OK\r\n"
+                              "Content-Type:text/html; charset=utf-8\r\n"
+                              "Content-Length:%d\r\n"
+                              "Connection:close\r\n"
+                              "\r\n",
+                              body_len);
+        
         send_all(client, header, header_len);
-        send_all(client, body, strlen(body));
+        send_all(client, html_body, body_len);
 
         zsock_close(client);
     }
