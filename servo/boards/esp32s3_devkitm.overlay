@@ -1,0 +1,40 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
+&pinctrl {
+    ledc0_default: ledc0_default {
+        group1 {
+            pinmux = <LEDC_CH0_GPIO18>;
+            output-enable;
+        };
+    };
+};
+
+&ledc0 {
+    status = "okay";
+    pinctrl-0 = <&ledc0_default>;
+    pinctrl-names = "default";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    servo_pwm: channel0@0 {
+        reg = <0x0>;
+        timer = <0>;
+        /* channel 子节点本身就是 pwm provider，直接在这里声明 */
+    };
+};
+
+/ {
+    aliases {
+        servo0 = &pwm_servo;
+    };
+
+    pwm_servo: pwm_servo {
+        compatible = "pwm-leds";
+        /*
+         * 引用 ledc0 本身作为 PWM controller
+         * cell 格式取决于 espressif,esp32-ledc 的 #pwm-cells
+         * 先用 <&ledc0 0 20000000 PWM_POLARITY_NORMAL> 试
+         */
+        pwms = <&ledc0 0 20000000 PWM_POLARITY_NORMAL>;
+    };
+};

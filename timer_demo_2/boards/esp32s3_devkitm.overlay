@@ -1,0 +1,18 @@
+/{
+	aliases {
+		my-timer = &timer0_counter;
+	};
+};
+
+
+
+&timer0 {
+	status = "okay";
+	prescaler = <4000>;
+	timer0_counter: counter {
+		status = "okay";
+	};
+};
+
+
+ 
